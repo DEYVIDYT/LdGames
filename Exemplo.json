@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Fonte 1",
+        "description": "Descrição da Fonte 1",
+        "link": "http://linkparaafonte1.com"
+    },
+    {
+        "name": "Fonte 2",
+        "description": "Descrição da Fonte 2",
+        "link": "http://linkparaafonte2.com"
+    }
+]
