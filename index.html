@@ -1,0 +1,227 @@
+<html><head><base href="." /><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>LdGames Cloud Guide</title><style>
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.warning {
+    background: linear-gradient(to right, #fff5f5, #ffe8e8);
+    border-left: 5px solid #ff4444;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(255,68,68,0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.warning:hover {
+    transform: translateY(-5px);
+}
+
+pre {
+    background: #1e1e2e;
+    color: #a6e3a1;
+    padding: 25px;
+    border-radius: 12px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-size: 0.95em;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+h1 {
+    color: #1a365d;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #4a90e2, #67b26f);
+    border-radius: 2px;
+}
+
+h2 {
+    color: #2c5282;
+    font-size: 1.8em;
+    margin-top: 40px;
+}
+
+.info-box {
+    background: linear-gradient(to right, #e3f2fd, #bbdefb);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 4px 15px rgba(33,150,243,0.1);
+    border: 1px solid rgba(33,150,243,0.2);
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin: 12px 0;
+    position: relative;
+    padding-left: 15px;
+}
+
+li::before {
+    content: '•';
+    color: #4a90e2;
+    font-weight: bold;
+    position: absolute;
+    left: -15px;
+}
+
+strong {
+    color: #2c5282;
+    font-weight: 600;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    pre {
+        font-size: 0.85em;
+    }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+</head><body>
+
+<div class="container fade-in">
+    <h1>Guia de Uso da Cloud LdGames</h1>
+    
+    <div class="warning">
+        <h3>⚠️ Aviso Importante:</h3>
+        <p>A cloud do LdGames deve ser utilizada <strong>exclusivamente para uso pessoal</strong> e somente para armazenar cópias de jogos que você já possui legalmente.</p>
+    </div>
+
+    <div class="info-box">
+        <h2>Estrutura do JSON da Cloud</h2>
+        <p>Abaixo está um exemplo do formato correto para estruturar seus dados na cloud:</p>
+    </div>
+
+    <pre>{
+  "name": "MinhaCloud",
+  "downloads": [
+    {
+      "title": "Super Mario World",
+      "fileSize": "2.3MB",
+      "uris": [
+        "https://meuservidor.com/downloads/mario-world",
+        "https://backup.com/downloads/mario-world"
+      ],
+      "uploadDate": "2023-12-25"
+    },
+    {
+      "title": "Sonic the Hedgehog",
+      "fileSize": "1.8MB",
+      "uris": [
+        "https://meuservidor.com/downloads/sonic",
+        "https://backup.com/downloads/sonic"
+      ],
+      "uploadDate": "2023-12-26"
+    }
+  ]
+}</pre>
+
+    <div class="info-box">
+        <h2>Explicação dos Campos</h2>
+        <ul>
+            <li><strong>name:</strong> Nome identificador da sua cloud pessoal</li>
+            <li><strong>title:</strong> Nome do jogo armazenado</li>
+            <li><strong>fileSize:</strong> Tamanho do arquivo do jogo</li>
+            <li><strong>uris:</strong> Links para download do jogo (recomenda-se sempre ter mais de um para backup)</li>
+            <li><strong>uploadDate:</strong> Data em que o arquivo foi enviado para a cloud</li>
+        </ul>
+    </div>
+
+    <div class="warning">
+        <h3>Lembre-se:</h3>
+        <ul>
+            <li>Mantenha suas ROMs organizadas e bem descritas</li>
+            <li>Sempre inclua links alternativos para backup</li>
+            <li>Use apenas para armazenar jogos que você possui legitimamente</li>
+            <li>Não compartilhe sua cloud com terceiros</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const elements = document.querySelectorAll('.container > *');
+    elements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.animation = 'none';
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.animation = 'fadeInUp 0.8s ease-out forwards';
+        }, index * 200);
+    });
+});
+</script>
+
+</body></html>
