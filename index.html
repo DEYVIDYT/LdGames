@@ -1,0 +1,261 @@
+<html><head><base href="/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LdGames - Organize seus backups de jogos</title>
+<style>
+:root {
+  --primary: #2A2F4F;
+  --secondary: #917FB3;
+  --accent: #E5BEEC;
+  --background: #FDE2F3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--primary);
+  line-height: 1.6;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: var(--background);
+  clip-path: polygon(0 50%, 100% 0, 100% 100%, 0% 100%);
+}
+
+.app-icon {
+  width: 150px;
+  height: 150px;
+  border-radius: 30px;
+  margin: 1rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.app-icon:hover {
+  transform: scale(1.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin: 4rem 0;
+}
+
+.feature-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--secondary), var(--accent));
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.feature-card h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.screenshots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin: 4rem 0;
+}
+
+.screenshot {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.screenshot:hover {
+  transform: scale(1.03);
+}
+
+.download-section {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, rgba(42, 47, 79, 0.05), rgba(145, 127, 179, 0.05));
+  border-radius: 20px;
+  margin: 2rem 0;
+}
+
+.download-btn {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.download-btn span {
+  background: rgba(255,255,255,0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
+.footer {
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 3rem;
+  margin-top: 6rem;
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+  margin: 3rem 0;
+  font-size: 2.2rem;
+  color: var(--primary);
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--secondary);
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.header p {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+<body>
+  <header class="header">
+    <img src="https://raw.githubusercontent.com/DEYVIDYT/LdGames/refs/heads/main/Photos/Round%20Photo_Nov142024_143621.png" alt="LdGames Logo" class="app-icon">
+    <h1>LdGames</h1>
+    <p>Organize seus backups de jogos de forma legal e eficiente</p>
+  </header>
+
+  <main class="container">
+    <div class="download-section">
+      <h2>Baixe Agora</h2>
+      <a href="https://github.com/DEYVIDYT/LdGames/releases/download/LdGamesV1.2Fix/LdGames_1.2.apk" class="download-btn">
+        Baixar LdGames
+        <span>v1.2</span>
+      </a>
+    </div>
+
+    <section class="features">
+      <div class="feature-card">
+        <h3>🌩️ Função Cloud</h3>
+        <p>Conecte sua própria nuvem pessoal e gerencie seus backups de jogos de forma segura e organizada.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🔒 Backup Seguro</h3>
+        <p>Faça backup dos seus jogos legalmente e mantenha-os organizados em um só lugar.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🎮 Fácil de Usar</h3>
+        <p>Interface intuitiva e amigável para gerenciar sua biblioteca de jogos.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Screenshots</h2>
+      <div class="screenshots">
+        <img src="https://raw.githubusercontent.com/DEYVIDYT/LdGames/refs/heads/main/Photos/Screenshot_20241114-143823.png" alt="Screenshot do LdGames mostrando a interface principal" class="screenshot">
+        <img src="https://raw.githubusercontent.com/DEYVIDYT/LdGames/refs/heads/main/Photos/Screenshot_20241114-144030.png" alt="Screenshot do LdGames mostrando a função cloud" class="screenshot">
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 LdGames. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.feature-card');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = 'translateY(0)';
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      cards.forEach(card => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.6s ease-out';
+        observer.observe(card);
+      });
+    });
+  </script>
+</body>
+</html>
