@@ -46,5 +46,11 @@
         "descricao": "O Wine \u00e9 um software que permite rodar aplicativos Windows em sistemas operacionais como Linux, macOS e Android, sem necessidade de emula\u00e7\u00e3o.",
         "url": "https:\/\/gofile.io\/d\/yeqQDz",
         "tipo": "wine"
+    },
+    {
+        "nome": "Turnip 24.3.0 R10",
+        "descricao": "Driver Vulkan para GPU Adreno",
+        "url": "https:\/\/gofile.io\/d\/KoUSuW",
+        "tipo": "turnip"
     }
 ]
