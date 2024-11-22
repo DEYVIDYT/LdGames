@@ -1,0 +1,50 @@
+[
+    {
+        "nome": "turnip-24.3.0-d264c66f",
+        "descricao": "Driver Vulkan Para GPU Adreno",
+        "url": "https:\/\/gofile.io\/d\/KCc2Pe",
+        "tipo": "turnip"
+    },
+    {
+        "nome": "Dxvk 0.96",
+        "descricao": "DXVK \u00e9 uma camada de tradu\u00e7\u00e3o que converte chamadas do DirectX 9, 10 e 11 para Vulkan",
+        "url": "https:\/\/gofile.io\/d\/6Yma41",
+        "tipo": "dxvk"
+    },
+    {
+        "nome": "turnip-24.3.0-db39685",
+        "descricao": "Driver Vulkan para GPU Adreno",
+        "url": "https:\/\/gofile.io\/d\/n3145s",
+        "tipo": "turnip"
+    },
+    {
+        "nome": "turnip-v25.0.0-R2",
+        "descricao": "Driver Vulkan Para GPU Adreno",
+        "url": "https:\/\/gofile.io\/d\/2DLqmq",
+        "tipo": "turnip"
+    },
+    {
+        "nome": "dxvk-2.5.1",
+        "descricao": "DXVK \u00e9 uma camada de tradu\u00e7\u00e3o que converte chamadas do DirectX 9, 10 e 11 para Vulkan",
+        "url": "https:\/\/gofile.io\/d\/pEr2Vh",
+        "tipo": "dxvk"
+    },
+    {
+        "nome": "Winlator 8.0",
+        "descricao": "O Winlator \u00e9 um emulador para Android que permite rodar jogos e aplicativos do Windows usando o Wine e o Box86\/Box64. Ele \u00e9 otimizado para jogos, oferecendo suporte a DirectX e controles personalizados, ideal para dispositivos m\u00f3veis.",
+        "url": "https:\/\/gofile.io\/d\/wpioJT",
+        "tipo": "Winlator"
+    },
+    {
+        "nome": "Wine 9.2 Custom",
+        "descricao": "O Wine \u00e9 um software que permite rodar aplicativos Windows em sistemas operacionais como Linux, macOS e Android, sem necessidade de emula\u00e7\u00e3o.",
+        "url": "https:\/\/gofile.io\/d\/GU734x",
+        "tipo": "wine"
+    },
+    {
+        "nome": "Wine 9.15 Custom",
+        "descricao": "O Wine \u00e9 um software que permite rodar aplicativos Windows em sistemas operacionais como Linux, macOS e Android, sem necessidade de emula\u00e7\u00e3o.",
+        "url": "https:\/\/gofile.io\/d\/yeqQDz",
+        "tipo": "wine"
+    }
+]
