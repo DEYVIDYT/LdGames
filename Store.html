@@ -1,0 +1,1097 @@
+<html><head><base href="https://example.com">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LdGames - Sua Biblioteca de Jogos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #107C10;
+            --secondary-color: #2D2D2D;
+            --accent-color: #00FF00;
+            --background-color: #202020;
+            --card-background: #2D2D2D;
+            --text-primary: #FFFFFF;
+            --text-secondary: #999999;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: transparent;
+            padding: 1.5rem;
+            box-shadow: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            text-align: left;
+            color: var(--text-primary);
+            font-size: 2.5em;
+            margin-bottom: 0.2rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            letter-spacing: -1px;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8em;
+        }
+
+        .genre-container {
+            margin: 2rem 0;
+            padding: 0 2rem;
+        }
+
+        .genre-title {
+            font-size: 2em;
+            color: var(--text-primary);
+            margin: 0.8rem 0;
+            border-left: none;
+            font-weight: 500;
+        }
+
+        .games-row {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            gap: 1.5rem;
+            height: 420px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-color) transparent;
+        }
+
+        .games-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .games-row::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .games-row::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-color);
+            border-radius: 20px;
+        }
+
+        .game-card {
+            flex: 0 0 240px;
+            height: 360px;
+            margin: 3px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--card-background);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, border 0.3s ease;
+            position: relative;
+        }
+
+        .game-card.selected {
+            transform: scale(1.1);
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+            z-index: 100;
+        }
+
+        .game-card img {
+            width: 240px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+
+        .game-info {
+            padding: 1rem;
+        }
+
+        .game-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-date {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .game-date i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+
+        .error {
+            background: #fff3f3;
+            color: #dc3545;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem;
+            text-align: center;
+            border: 1px solid #ffcdd2;
+        }
+
+        .bottom-nav,
+        .nav-item {
+            display: none;
+        }
+
+        .search-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--background-color);
+            z-index: 1000;
+            padding: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .search-container.active {
+            transform: translateY(0);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: var(--card-background);
+            color: var(--text-primary);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-results {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            overflow-y: auto;
+            height: calc(100vh - 200px);
+        }
+
+        #mainContent {
+            margin-bottom: 0;
+            padding-bottom: 1rem;
+        }
+
+        .game-details {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow-y: auto;
+            z-index: 2000;
+        }
+
+        .game-details-content {
+            background: linear-gradient(to bottom, 
+                rgba(32,32,32,0.9) 0%,
+                rgba(32,32,32,0.9) 100%);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-details-title {
+            font-size: 3em;
+            color: var(--text-primary);
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .game-details-date {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.2em;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            margin-top: 2rem;
+            align-self: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover,
+        .download-button:focus {
+            background: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .game-description {
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: var(--text-secondary);
+        }
+
+        .media-section {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .media-item {
+            flex: 0 0 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 169px;
+            object-fit: cover;
+        }
+
+        .media-item iframe {
+            width: 300px;
+            height: 169px;
+            border: none;
+        }
+
+        .close-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            z-index: 2001;
+        }
+
+        dialog {
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 90%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            background: var(--card-background);
+            color: var(--text-primary);
+        }
+
+        dialog::backdrop {
+            background: rgba(0,0,0,0.6);
+        }
+
+        .download-dialog-content {
+            padding: 30px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: var(--card-background);
+            color: var(--text-primary);
+        }
+
+        #downloadGameTitle {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-right: 40px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+
+        .download-source {
+            background: var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .download-info {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            text-align: left;
+        }
+
+        .download-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2002;
+        }
+
+        .close-dialog-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-dialog-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .save-button {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin: 10px 10px;
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .save-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .save-button.saved {
+            background: #4CAF50;
+        }
+
+        .save-button.saved:hover {
+            background: #388E3C;
+        }
+
+        .remove-game-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-game-btn:hover {
+            background: rgba(220, 53, 69, 0.8);
+        }
+
+        .frontend-mode,
+        .frontend-grid,
+        .frontend-card,
+        .frontend-header,
+        .frontend-title,
+        .frontend-close,
+        .frontend-toggle {
+            display: none !important;
+        }
+
+        /* Add styles for recommended games section */
+        .recommended-games {
+            padding: 2rem;
+            margin-top: 20px;
+        }
+
+        .recommended-title {
+            font-size: 2.5em;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo"><i class="fas fa-gamepad"></i>LdGames</h1>
+        <div class="subtitle">Sua biblioteca de jogos definitiva</div>
+    </header>
+
+    <div class="search-container" id="searchContainer">
+        <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar jogos...">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div id="mainContent">
+        <div id="error" class="error" style="display: none;"></div>
+        <div class="recommended-games">
+            <h2 class="recommended-title">Jogos Recomendados</h2>
+            <div id="recommendedGames" class="recommended-grid"></div>
+        </div>
+        <div id="genreContainer"></div>
+    </div>
+
+    <nav class="bottom-nav" style="display: none;"></nav>
+
+    <div id="libraryContainer" style="display: none;">
+        <div class="genre-container">
+            <div class="genre-title">Minha Biblioteca</div>
+            <div id="libraryGames" class="games-row"></div>
+        </div>
+    </div>
+
+    <div class="game-details" id="gameDetails">
+        <button class="close-button" onclick="closeGameDetails()">&#xd7;</button>
+        <div class="game-details-content" id="gameDetailsContent"></div>
+    </div>
+
+    <dialog id="downloadDialog">
+        <div class="download-dialog-content">
+            <h2 id="downloadGameTitle"></h2>
+            <div id="downloadSources"></div>
+            <button class="close-dialog-btn" onclick="downloadDialog.close()">&#xd7;</button>
+        </div>
+    </dialog>
+
+    <dialog id="desktopPathDialog">
+        <div class="download-dialog-content">
+            <h2>Configure Winlator Path</h2>
+            <p>Enter the .desktop file path to launch this game in Winlator:</p>
+            <form id="desktopPathForm">
+                <input type="text" class="search-input" id="desktopPath" placeholder="/storage/emulated/0/Download/Winlator/Game.desktop" required>
+                <div class="download-links">
+                    <button type="submit" class="download-button">Save Path</button>
+                    <button type="button" class="download-button" onclick="desktopPathDialog.close()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>const apiUrl = "https://ldgames.x10.mx/Games.php";
+let currentPage = 'home';
+let searchTimeout = null;
+let selectedGameIndex = 0;
+let gamepadConnected = false;
+let selectedGenre = 0;
+let selectedGame = 0;
+let isSearchActive = false;
+let recommendedGames = [];
+let lastInputTime = 0;
+function getSavedGames() {
+  const saved = localStorage.getItem('savedGames');
+  return saved ? JSON.parse(saved) : [];
+}
+function saveGame(game) {
+  const savedGames = getSavedGames();
+  const index = savedGames.findIndex(g => g.title === game.title);
+  if (index === -1) {
+    savedGames.push(game);
+    localStorage.setItem('savedGames', JSON.stringify(savedGames));
+    return true;
+  }
+  return false;
+}
+function removeGame(gameTitle) {
+  const savedGames = getSavedGames();
+  const filteredGames = savedGames.filter(g => g.title !== gameTitle);
+  localStorage.setItem('savedGames', JSON.stringify(filteredGames));
+}
+function displayLibrary() {
+  const libraryGames = document.getElementById('libraryGames');
+  const savedGames = getSavedGames();
+  libraryGames.innerHTML = '';
+  if (savedGames.length === 0) {
+    libraryGames.innerHTML = '<p style="padding: 20px;">Nenhum jogo salvo na biblioteca</p>';
+    return;
+  }
+  savedGames.forEach(game => {
+    const gameCard = document.createElement('div');
+    gameCard.className = 'game-card';
+    gameCard.innerHTML = `
+            <div class="remove-game-btn" onclick="event.stopPropagation(); removeFromLibrary('${game.title.replace(/'/g, "\\'")}')">
+                <i class="fas fa-times"></i>
+            </div>
+            <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
+            <div class="game-info">
+                <div class="game-title">${game.title}</div>
+                <div class="game-date">
+                    <i class="far fa-calendar-alt"></i>
+                    ${game.release_date || 'Data não informada'}
+                </div>
+            </div>
+        `;
+    gameCard.addEventListener('click', () => {
+      handleWinlatorLaunch(game.title);
+    });
+    libraryGames.appendChild(gameCard);
+  });
+}
+function handleSave(gameTitle, button) {
+  const detailsContent = document.getElementById('gameDetailsContent');
+  const game = {
+    title: gameTitle,
+    image_url: detailsContent.querySelector('.game-banner').src,
+    release_date: detailsContent.querySelector('.game-details-date').textContent,
+    description: detailsContent.querySelector('.game-description').textContent
+  };
+  if (button.classList.contains('saved')) {
+    removeGame(gameTitle);
+    button.classList.remove('saved');
+    button.textContent = 'Salvar na Biblioteca';
+  } else {
+    if (saveGame(game)) {
+      button.classList.add('saved');
+      button.textContent = 'Salvo na Biblioteca';
+    }
+  }
+}
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    switchPage(item.dataset.page);
+  });
+});
+document.getElementById('searchInput').addEventListener('input', e => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const searchTerm = e.target.value.trim();
+    if (searchTerm.length >= 2) {
+      searchGames(searchTerm);
+    }
+  }, 500);
+});
+document.getElementById('searchInput').addEventListener('focus', () => {
+  document.querySelector('.search-container').classList.add('active');
+  document.getElementById('recommendedGames').style.display = 'none';
+  isSearchActive = true;
+});
+document.getElementById('searchInput').addEventListener('blur', () => {
+  if (document.getElementById('searchInput').value.trim() === '') {
+    document.querySelector('.search-container').classList.remove('active');
+    document.getElementById('recommendedGames').style.display = 'grid';
+    isSearchActive = false;
+  }
+});
+async function searchGames(term) {
+  const searchResults = document.getElementById('searchResults');
+  searchResults.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    Pesquisando...
+                </div>
+            `;
+  try {
+    const response = await fetch(`${apiUrl}?name=${encodeURIComponent(term)}`);
+    if (!response.ok) throw new Error("Erro na API");
+    const games = await response.json();
+    displaySearchResults(games);
+  } catch (error) {
+    searchResults.innerHTML = `<div class="error">Erro na pesquisa: ${error.message}</div>`;
+  }
+}
+async function fetchGames() {
+  const recommendedContainer = document.getElementById("recommendedGames");
+  recommendedContainer.innerHTML = `
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            Carregando jogos...
+        </div>
+    `;
+  try {
+    const response = await fetch(`${apiUrl}?type=generos`);
+    if (!response.ok) {
+      throw new Error("Erro na API: " + response.status);
+    }
+    const games = await response.json();
+    if (!Array.isArray(games)) {
+      throw new Error("Resposta inesperada da API.");
+    }
+    recommendedGames = games.sort(() => 0.5 - Math.random()).slice(0, 12);
+    displayRecommendedGames();
+  } catch (error) {
+    const errorElement = document.getElementById("error");
+    errorElement.style.display = "block";
+    errorElement.textContent = `Erro ao buscar os jogos: ${error.message}`;
+    recommendedContainer.innerHTML = '';
+  }
+}
+async function showGameDetails(game) {
+  const detailsContainer = document.getElementById('gameDetails');
+  const content = document.getElementById('gameDetailsContent');
+  detailsContainer.style.backgroundImage = `url(${game.banner_url || game.image_url})`;
+  content.innerHTML = `
+        <h1 class="game-details-title">${game.title}</h1>
+        <div class="game-description">${game.description || 'No description available'}</div>
+        <button class="download-button" onclick="handleDownload('${game.title.replace(/'/g, "\\'")}')">
+            Download Game
+        </button>
+        <button class="save-button ${getSavedGames().some(g => g.title === game.title) ? 'saved' : ''}" 
+                onclick="handleSave('${game.title.replace(/'/g, "\\'")}', this)">
+            ${getSavedGames().some(g => g.title === game.title) ? 'Salvo na Biblioteca' : 'Salvar na Biblioteca'}
+        </button>
+    `;
+  detailsContainer.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+async function handleDownload(gameTitle) {
+  const sanitizedTitle = gameTitle.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+  const loadingOverlay = document.createElement('div');
+  loadingOverlay.className = 'loading-overlay';
+  loadingOverlay.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    Buscando links de download...
+                </div>
+            `;
+  document.body.appendChild(loadingOverlay);
+  try {
+    const [atopGames, steamRip] = await Promise.all([fetch('https://hydralinks.cloud/sources/atop-games.json').then(r => r.json()), fetch('https://hydralinks.cloud/sources/steamrip.json').then(r => r.json())]);
+    const downloads = [];
+    const atopMatches = atopGames.downloads.filter(d => {
+      const sanitizedDownloadTitle = d.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+      return sanitizedDownloadTitle.includes(sanitizedTitle.toLowerCase());
+    });
+    atopMatches.forEach(match => {
+      downloads.push({
+        source: 'Atop Games',
+        ...match
+      });
+    });
+    const steamMatches = steamRip.downloads.filter(d => {
+      const sanitizedDownloadTitle = d.title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+      return sanitizedDownloadTitle.includes(sanitizedTitle.toLowerCase());
+    });
+    steamMatches.forEach(match => {
+      downloads.push({
+        source: 'SteamRip',
+        ...match
+      });
+    });
+    document.body.removeChild(loadingOverlay);
+    showDownloadDialog(gameTitle, downloads);
+  } catch (error) {
+    document.body.removeChild(loadingOverlay);
+    console.error('Error fetching download sources:', error);
+    alert('Error loading download sources. Please try again later.');
+  }
+}
+function showDownloadDialog(gameTitle, downloads) {
+  const dialog = document.getElementById('downloadDialog');
+  const title = document.getElementById('downloadGameTitle');
+  const sources = document.getElementById('downloadSources');
+  title.textContent = gameTitle;
+  sources.innerHTML = '';
+  if (downloads.length === 0) {
+    sources.innerHTML = `
+                    <div class="download-source">
+                        <p>No download sources found for this game.</p>
+                    </div>
+                `;
+  } else {
+    downloads.forEach(download => {
+      const sourceDiv = document.createElement('div');
+      sourceDiv.className = 'download-source';
+      sourceDiv.innerHTML = `
+                        <h3>${download.source}</h3>
+                        <div class="download-info">
+                            <p>Size: ${download.fileSize}</p>
+                            <p>Upload Date: ${new Date(download.uploadDate).toLocaleDateString()}</p>
+                        </div>
+                        <div class="download-links">
+                            ${download.uris.map(uri => {
+        const hostname = new URL(uri).hostname;
+        return `<a href="${uri}" target="_blank" class="download-button">Download via ${hostname}</a>`;
+      }).join('')}
+                        </div>
+                    `;
+      sources.appendChild(sourceDiv);
+    });
+  }
+  dialog.addEventListener('close', () => {
+    const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+    iframes.forEach(iframe => {
+      iframe.src = iframe.src;
+    });
+  }, {
+    once: true
+  });
+  dialog.showModal();
+}
+function displaySearchResults(games) {
+  const resultsContainer = document.getElementById('searchResults');
+  resultsContainer.innerHTML = '';
+  games.forEach(game => {
+    const gameCard = document.createElement('div');
+    gameCard.className = 'game-card';
+    gameCard.innerHTML = `
+                    <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
+                    <div class="game-info">
+                        <div class="game-title">${game.title}</div>
+                        <div class="game-date">
+                            <i class="far fa-calendar-alt"></i>
+                            ${game.release_date || 'Data não informada'}
+                        </div>
+                    </div>
+                `;
+    gameCard.addEventListener('click', () => showGameDetails(game));
+    resultsContainer.appendChild(gameCard);
+  });
+}
+function switchPage(page) {
+  return;
+}
+function initGamepad() {
+  window.addEventListener('gamepadconnected', e => {
+    gamepadConnected = true;
+    console.log('Gamepad connected:', e.gamepad);
+    highlightSelected();
+    showToast('Gamepad Connected');
+  });
+  window.addEventListener('gamepaddisconnected', e => {
+    gamepadConnected = false;
+    console.log('Gamepad disconnected:', e.gamepad);
+    clearSelectedHighlights();
+    showToast('Gamepad Disconnected');
+  });
+  function showToast(message) {
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.background = 'rgba(16, 124, 16, 0.9)';
+    toast.style.color = 'white';
+    toast.style.padding = '10px 20px';
+    toast.style.borderRadius = '5px';
+    toast.style.zIndex = '9999';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+  function clearSelectedHighlights() {
+    document.querySelectorAll('.game-card.selected').forEach(card => {
+      card.classList.remove('selected');
+    });
+  }
+  setInterval(() => {
+    if (gamepadConnected) {
+      const gamepad = navigator.getGamepads()[0];
+      if (gamepad) {
+        handleGamepadInput(gamepad);
+      }
+    }
+  }, 16);
+}
+function handleGamepadInput(gamepad) {
+  const games = isSearchActive ? document.querySelectorAll('.search-results .game-card') : document.querySelectorAll('#recommendedGames .game-card');
+  const detailsOpen = document.querySelector('.game-details').style.display === 'block';
+  const dialogOpen = document.querySelector('dialog[open]');
+  if (dialogOpen) {
+    const currentDialog = document.querySelector('dialog[open]');
+    const downloadButtons = currentDialog.querySelectorAll('.download-button');
+    const currentIndex = Array.from(downloadButtons).findIndex(btn => btn === document.activeElement);
+    if (gamepad.buttons[1].pressed) {
+      dialogOpen.close();
+      return;
+    }
+    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : downloadButtons.length - 1;
+      downloadButtons[prevIndex].focus();
+      return;
+    }
+    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+      const nextIndex = currentIndex < downloadButtons.length - 1 ? currentIndex + 1 : 0;
+      downloadButtons[nextIndex].focus();
+      return;
+    }
+    if (gamepad.buttons[0].pressed) {
+      document.activeElement.click();
+      return;
+    }
+    return;
+  }
+  if (detailsOpen) {
+    if (gamepad.buttons[1].pressed) {
+      closeGameDetails();
+      return;
+    }
+    if (gamepad.buttons[0].pressed) {
+      const gameTitle = document.querySelector('.game-details-title').textContent;
+      handleDownload(gameTitle);
+      return;
+    }
+    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+      document.querySelector('.game-details-content').scrollBy(0, -50);
+      return;
+    }
+    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+      document.querySelector('.game-details-content').scrollBy(0, 50);
+      return;
+    }
+    return;
+  }
+  const now = Date.now();
+  if (now - lastInputTime < 200) {
+    return;
+  }
+  if (gamepad.buttons[15].pressed || gamepad.axes[0] > 0.5) {
+    selectedGame = (selectedGame + 1) % games.length;
+    lastInputTime = now;
+    highlightSelected();
+  } else if (gamepad.buttons[14].pressed || gamepad.axes[0] < -0.5) {
+    selectedGame = (selectedGame - 1 + games.length) % games.length;
+    lastInputTime = now;
+    highlightSelected();
+  } else if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+    const columns = 4;
+    selectedGame = (selectedGame - columns + games.length) % games.length;
+    lastInputTime = now;
+    highlightSelected();
+  } else if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+    const columns = 4;
+    selectedGame = (selectedGame + columns) % games.length;
+    lastInputTime = now;
+    highlightSelected();
+  }
+  if (gamepad.buttons[0].pressed) {
+    const selectedCard = games[selectedGame];
+    if (selectedCard) {
+      const gameData = recommendedGames[selectedGame];
+      showGameDetails(gameData);
+    }
+  }
+  if (gamepad.buttons[1].pressed && isSearchActive) {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchInput').blur();
+  }
+}
+function highlightSelected() {
+  const games = isSearchActive ? document.querySelectorAll('.search-results .game-card') : document.querySelectorAll('#recommendedGames .game-card');
+  document.querySelectorAll('.game-card.selected').forEach(card => {
+    card.classList.remove('selected');
+  });
+  if (selectedGame >= games.length) {
+    selectedGame = games.length - 1;
+  }
+  if (selectedGame < 0) {
+    selectedGame = 0;
+  }
+  if (games && games[selectedGame]) {
+    games[selectedGame].classList.add('selected');
+    games[selectedGame].scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    });
+  }
+}
+function closeGameDetails() {
+  const detailsContainer = document.getElementById('gameDetails');
+  detailsContainer.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+  iframes.forEach(iframe => {
+    iframe.src = iframe.src;
+  });
+}
+function removeFromLibrary(gameTitle) {
+  if (confirm('Deseja remover este jogo da sua biblioteca?')) {
+    removeGame(gameTitle);
+    displayLibrary();
+  }
+}
+async function handleWinlatorLaunch(gameTitle) {
+  const savedPath = localStorage.getItem(`winlator_path_${gameTitle}`);
+  if (savedPath) {
+    try {
+      Android.openWinlator(savedPath);
+    } catch (e) {
+      console.error('Error launching Winlator:', e);
+      alert('Error launching game in Winlator');
+    }
+  } else {
+    const dialog = document.getElementById('desktopPathDialog');
+    const form = document.getElementById('desktopPathForm');
+    const input = document.getElementById('desktopPath');
+    form.onsubmit = e => {
+      e.preventDefault();
+      const path = input.value.trim();
+      localStorage.setItem(`winlator_path_${gameTitle}`, path);
+      try {
+        Android.openWinlator(path);
+      } catch (e) {
+        console.error('Error launching Winlator:', e);
+        alert('Error launching game in Winlator');
+      }
+      dialog.close();
+    };
+    dialog.showModal();
+  }
+}
+function displayGames(games) {
+  const genreContainer = document.getElementById("genreContainer");
+  genreContainer.innerHTML = "";
+  const genres = {};
+  games.forEach(game => {
+    const genre = game.genre || "Gênero Desconhecido";
+    if (!genres[genre]) {
+      genres[genre] = [];
+    }
+    genres[genre].push(game);
+  });
+  for (const [genre, genreGames] of Object.entries(genres)) {
+    const genreSection = document.createElement("div");
+    genreSection.className = "genre-container";
+    const genreTitle = document.createElement("div");
+    genreTitle.className = "genre-title";
+    genreTitle.textContent = genre;
+    const gamesRow = document.createElement("div");
+    gamesRow.className = "games-row";
+    genreGames.forEach(game => {
+      const gameCard = document.createElement("div");
+      gameCard.className = "game-card";
+      gameCard.innerHTML = `
+                        <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
+                        <div class="game-info">
+                            <div class="game-title">${game.title}</div>
+                            <div class="game-date">
+                                <i class="far fa-calendar-alt"></i>
+                                ${game.release_date || 'Data não informada'}
+                            </div>
+                        </div>
+                    `;
+      gameCard.addEventListener('click', () => showGameDetails(game));
+      gamesRow.appendChild(gameCard);
+    });
+    genreSection.appendChild(genreTitle);
+    genreSection.appendChild(gamesRow);
+    genreContainer.appendChild(genreSection);
+  }
+}
+function displayRecommendedGames() {
+  const container = document.getElementById("recommendedGames");
+  container.innerHTML = "";
+  recommendedGames.forEach(game => {
+    const gameCard = document.createElement("div");
+    gameCard.className = "game-card";
+    gameCard.innerHTML = `
+      <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
+      <div class="game-info">
+        <div class="game-title">${game.title}</div>
+        <div class="game-date">
+          <i class="far fa-calendar-alt"></i>
+          ${game.release_date || 'Data não informada'}
+        </div>
+      </div>
+    `;
+    gameCard.addEventListener('click', () => showGameDetails(game));
+    container.appendChild(gameCard);
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(err => {
+      console.log('Orientation lock failed:', err);
+    });
+  }
+  fetchGames();
+  initGamepad();
+});</script>
+</body>
+</html></head></html>
