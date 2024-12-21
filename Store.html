@@ -236,6 +236,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow-y: auto;
         }
 
         .game-details-title {
@@ -486,17 +487,51 @@
         .frontend-toggle {
             display: none !important;
         }
+
+        .search-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-icon {
+            background: var(--secondary-color);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-icon:hover {
+            background: var(--primary-color);
+        }
+
+        .search-icon i {
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
     <header></header>
-
+    <div class="search-bar">
+        <div class="search-icon" onclick="toggleSearch()">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
     <div class="search-container" id="searchContainer">
         <button class="search-close-btn" onclick="toggleSearch()">&#xd7;</button>
         <input type="text" class="search-input" id="searchInput" placeholder="Search games...">
         <div class="search-results" id="searchResults"></div>
     </div>
-
     <div id="mainContent">
         <div id="error" class="error" style="display: none;"></div>
         <div class="recommended-games">
@@ -505,21 +540,17 @@
         </div>
         <div id="genreContainer"></div>
     </div>
-
     <nav class="bottom-nav" style="display: none;"></nav>
-
     <div id="libraryContainer" style="display: none;">
         <div class="genre-container">
             <div class="genre-title">Minha Biblioteca</div>
             <div id="libraryGames" class="games-row"></div>
         </div>
     </div>
-
     <div class="game-details" id="gameDetails">
         <button class="close-button" onclick="closeGameDetails()">&#xd7;</button>
         <div class="game-details-content" id="gameDetailsContent"></div>
     </div>
-
     <dialog id="downloadDialog">
         <div class="download-dialog-content">
             <h2 id="downloadGameTitle"></h2>
@@ -527,7 +558,6 @@
             <button class="close-dialog-btn" onclick="downloadDialog.close()">&#xd7;</button>
         </div>
     </dialog>
-
     <dialog id="desktopPathDialog">
         <div class="download-dialog-content">
             <h2>Configure Winlator Path</h2>
@@ -541,7 +571,6 @@
             </form>
         </div>
     </dialog>
-
     <script>const apiUrl = "https://ldgames.x10.mx/Games.php";
 let currentPage = 'home';
 let searchTimeout = null;
@@ -634,17 +663,17 @@ document.getElementById('searchInput').addEventListener('input', e => {
     }
   }, 500);
 });
-document.getElementById('searchInput').addEventListener('focus', () => {
-  document.querySelector('.search-container').classList.add('active');
-  document.getElementById('recommendedGames').style.display = 'none';
-  isSearchActive = true;
-});
 document.getElementById('searchInput').addEventListener('blur', () => {
   if (document.getElementById('searchInput').value.trim() === '') {
     document.querySelector('.search-container').classList.remove('active');
     document.getElementById('recommendedGames').style.display = 'grid';
     isSearchActive = false;
   }
+});
+document.getElementById('searchInput').addEventListener('focus', () => {
+  document.querySelector('.search-container').classList.add('active');
+  document.getElementById('recommendedGames').style.display = 'none';
+  isSearchActive = true;
 });
 async function searchGames(term) {
   const searchResults = document.getElementById('searchResults');
@@ -702,15 +731,19 @@ async function showGameDetails(game) {
   const content = document.getElementById('gameDetailsContent');
   detailsContainer.style.backgroundImage = `url(${game.banner_url || game.image_url})`;
   content.innerHTML = `
-    <h1 class="game-details-title">${game.title}</h1>
-    <div class="game-description">${game.description || 'No description available'}</div>
-    <button class="download-button" onclick="handleDownload('${game.title.replace(/'/g, "\\'")}')">
-      Download Game
-    </button>
-    <button class="save-button ${getSavedGames().some(g => g.title === game.title) ? 'saved' : ''}" 
-            onclick="handleSave('${game.title.replace(/'/g, "\\'")}', this)">
-      ${getSavedGames().some(g => g.title === game.title) ? 'Salvo na Biblioteca' : 'Salvar na Biblioteca'}
-    </button>
+    <div style="max-height: calc(100vh - 200px); overflow-y: auto;">
+      <h1 class="game-details-title">${game.title}</h1>
+      <div class="game-description">${game.description || 'No description available'}</div>
+    </div>
+    <div style="padding: 20px 0;">
+      <button class="download-button" onclick="handleDownload('${game.title.replace(/'/g, "\\'")}')">
+        Download Game
+      </button>
+      <button class="save-button ${getSavedGames().some(g => g.title === game.title) ? 'saved' : ''}" 
+              onclick="handleSave('${game.title.replace(/'/g, "\\'")}', this)">
+        ${getSavedGames().some(g => g.title === game.title) ? 'Salvo na Biblioteca' : 'Salvar na Biblioteca'}
+      </button>
+    </div>
   `;
   detailsContainer.style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -869,57 +902,73 @@ function handleGamepadInput(gamepad) {
     toggleSearch();
     return;
   }
+
   const games = isSearchActive ? document.querySelectorAll('.search-results .game-card') : document.querySelectorAll('#recommendedGames .game-card');
   const detailsOpen = document.querySelector('.game-details').style.display === 'block';
   const dialogOpen = document.querySelector('dialog[open]');
+
   if (dialogOpen) {
     const currentDialog = document.querySelector('dialog[open]');
     const downloadButtons = currentDialog.querySelectorAll('.download-button');
     const currentIndex = Array.from(downloadButtons).findIndex(btn => btn === document.activeElement);
-    if (gamepad.buttons[1].pressed) {
+
+    if (gamepad.buttons[1].pressed) { 
       dialogOpen.close();
       return;
     }
-    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+
+    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) { 
       const prevIndex = currentIndex > 0 ? currentIndex - 1 : downloadButtons.length - 1;
       downloadButtons[prevIndex].focus();
       return;
     }
-    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+
+    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) { 
       const nextIndex = currentIndex < downloadButtons.length - 1 ? currentIndex + 1 : 0;
       downloadButtons[nextIndex].focus();
       return;
     }
-    if (gamepad.buttons[0].pressed) {
+
+    if (gamepad.buttons[0].pressed) { 
       document.activeElement.click();
       return;
     }
+
     return;
   }
+
   if (detailsOpen) {
-    if (gamepad.buttons[1].pressed) {
+    if (gamepad.buttons[1].pressed) { 
       closeGameDetails();
       return;
     }
-    if (gamepad.buttons[0].pressed) {
-      const gameTitle = document.querySelector('.game-details-title').textContent;
-      handleDownload(gameTitle);
+
+    if (gamepad.buttons[0].pressed) { 
+      const downloadBtn = document.querySelector('.download-button');
+      if (downloadBtn) {
+        downloadBtn.click();
+      }
       return;
     }
-    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+
+    if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) { 
       document.querySelector('.game-details-content').scrollBy(0, -50);
       return;
     }
-    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+
+    if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) { 
       document.querySelector('.game-details-content').scrollBy(0, 50);
       return;
     }
+
     return;
   }
+
   const now = Date.now();
   if (now - lastInputTime < 200) {
     return;
   }
+
   if (isSearchActive) {
     const games = document.querySelectorAll('.search-results .game-card');
     if (gamepad.buttons[15].pressed || gamepad.axes[0] > 0.5) {
@@ -966,7 +1015,9 @@ function handleGamepadInput(gamepad) {
       const gameData = recommendedGames[selectedGame];
       showGameDetails(gameData);
     }
+    return;
   }
+
   if (gamepad.buttons[1].pressed && isSearchActive) {
     document.getElementById('searchInput').value = '';
     document.getElementById('searchInput').blur();
@@ -1100,15 +1151,18 @@ function displayRecommendedGames() {
 function toggleSearch() {
   const searchContainer = document.querySelector('.search-container');
   const searchInput = document.getElementById('searchInput');
+  const recommendedGames = document.getElementById('recommendedGames');
   if (!searchContainer.classList.contains('active')) {
     searchContainer.classList.add('active');
     searchInput.focus();
     isSearchActive = true;
+    recommendedGames.style.display = 'none';
   } else {
     searchContainer.classList.remove('active');
     searchInput.value = '';
     isSearchActive = false;
     selectedGame = 0;
+    recommendedGames.style.display = 'grid';
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -1117,6 +1171,11 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Orientation lock failed:', err);
     });
   }
+  document.addEventListener('keydown', e => {
+    if (e.key === 's' || e.key === 'S') {
+      toggleSearch();
+    }
+  });
   fetchGames();
   initGamepad();
 });</script>
