@@ -34,32 +34,11 @@
 
         header {
             background: transparent;
-            padding: 1.5rem;
+            padding: 0;
             box-shadow: none;
             position: sticky;
             top: 0;
             z-index: 1000;
-        }
-
-        .logo {
-            text-align: left;
-            color: var(--text-primary);
-            font-size: 2.5em;
-            margin-bottom: 0.2rem;
-            font-weight: 800;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-            letter-spacing: -1px;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent-color);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.8em;
         }
 
         .genre-container {
@@ -77,10 +56,11 @@
 
         .games-row {
             display: flex;
+            flex-wrap: nowrap;
             overflow-x: auto;
             padding: 0.5rem 0;
             gap: 1.5rem;
-            height: 420px;
+            height: 300px;
             scrollbar-width: thin;
             scrollbar-color: var(--secondary-color) transparent;
         }
@@ -99,48 +79,46 @@
         }
 
         .game-card {
-            flex: 0 0 240px;
-            height: 360px;
-            margin: 3px;
-            border-radius: 8px;
-            overflow: hidden;
+            flex: 0 0 200px; 
+            height: 280px; 
+            margin: 8px;
+            border-radius: 15px;
             background: var(--card-background);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, border 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
             position: relative;
-        }
-
-        .game-card.selected {
-            transform: scale(1.1);
-            border: 3px solid var(--accent-color);
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-            z-index: 100;
+            overflow: hidden;
         }
 
         .game-card img {
-            width: 240px;
-            height: 300px;
+            width: 100%;
+            height: 220px; 
             object-fit: cover;
-            border-radius: 8px 8px 0 0;
-            border-bottom: none;
+            border-radius: 15px 15px 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.05);
         }
 
         .game-info {
-            padding: 1rem;
+            padding: 10px;
+            background: linear-gradient(to top, var(--card-background) 90%, transparent);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
 
         .game-title {
-            font-size: 1.1em;
-            font-weight: 600;
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 5px;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .game-date {
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: var(--text-secondary);
             display: flex;
             align-items: center;
@@ -167,113 +145,143 @@
         }
 
         .search-container {
-            position: fixed;
+            position: fixed; 
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: var(--background-color);
-            z-index: 1000;
-            padding: 2rem;
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            padding: 1rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
 
         .search-container.active {
-            transform: translateY(0);
+            display: block;
         }
 
         .search-input {
             width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 2em;
             padding: 1rem;
-            border: 2px solid var(--secondary-color);
-            border-radius: 25px;
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.3s ease;
-            background: var(--card-background);
-            color: var(--text-primary);
-        }
-
-        .search-input:focus {
-            border-color: var(--accent-color);
+            margin-bottom: 2rem;
+            border-radius: 10px;
         }
 
         .search-results {
-            margin-top: 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            overflow-y: auto;
-            height: calc(100vh - 200px);
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+            height: calc(100vh - 100px);
         }
 
-        #mainContent {
-            margin-bottom: 0;
-            padding-bottom: 1rem;
+        .search-results .game-card {
+            flex: 0 0 200px;
+            height: 280px;
+        }
+
+        .search-results .game-card img {
+            height: 220px;
+        }
+
+        .search-results .game-card.selected {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0,255,0,0.6);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .search-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            z-index: 2001;
         }
 
         .game-details {
+            background-size: cover;
+            background-position: center;
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-size: cover;
-            background-position: center;
             background-repeat: no-repeat;
             overflow-y: auto;
             z-index: 2000;
         }
 
         .game-details-content {
-            background: linear-gradient(to bottom, 
-                rgba(32,32,32,0.9) 0%,
-                rgba(32,32,32,0.9) 100%);
-            padding: 2rem;
-            min-height: 100vh;
+            padding: 30px;
+            background: linear-gradient(to bottom,
+                rgba(32,32,32,0.8) 0%,
+                rgba(32,32,32,0.95) 50%,
+                rgba(32,32,32,1) 100%);
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .game-details-title {
-            font-size: 3em;
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 15px;
             color: var(--text-primary);
-            margin: 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
 
         .game-details-date {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .game-description {
+            font-size: 1.1em;
+            line-height: 1.5;
             margin-bottom: 20px;
+            color: var(--text-secondary);
+            max-width: 900px;
+            max-height: 40vh;
+            overflow: auto;
         }
 
         .download-button {
+            font-size: 1.4em;
+            padding: 15px 40px;
+            border-radius: 12px;
             background: var(--primary-color);
             color: white;
-            padding: 1rem 3rem;
-            font-size: 1.2em;
-            border-radius: 8px;
             border: none;
             cursor: pointer;
-            margin-top: 2rem;
-            align-self: flex-start;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin: 10px 0;
         }
 
         .download-button:hover,
         .download-button:focus {
             background: var(--accent-color);
             transform: scale(1.05);
-        }
-
-        .game-description {
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-            color: var(--text-secondary);
         }
 
         .media-section {
@@ -317,18 +325,12 @@
         }
 
         dialog {
-            padding: 0;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            max-width: 700px;
-            width: 90%;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: 0;
             background: var(--card-background);
+            border-radius: 20px;
+            border: none;
+            width: 90%;
+            max-width: 800px;
+            padding: 0;
             color: var(--text-primary);
         }
 
@@ -337,44 +339,42 @@
         }
 
         .download-dialog-content {
-            padding: 30px;
-            position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
-            background: var(--card-background);
-            color: var(--text-primary);
+            padding: 40px;
         }
 
         #downloadGameTitle {
+            font-size: 2.2em;
+            margin-bottom: 30px;
             color: var(--primary-color);
-            margin-bottom: 20px;
-            padding-right: 40px;
             text-align: center;
+            font-weight: 800;
+        }
+
+        .game-card.selected {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0,255,0,0.4);
+            border: 3px solid var(--accent-color);
+            z-index: 100;
+        }
+
+        .recommended-games {
+            padding: 40px;
+            margin-top: 30px;
+        }
+
+        .recommended-title {
             font-size: 1.8em;
-        }
-
-        .download-source {
-            background: var(--secondary-color);
-            border-radius: 15px;
-            padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-            text-align: center;
+            font-weight: 800;
             color: var(--text-primary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .download-info {
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            font-size: 0.95em;
-            text-align: left;
-        }
-
-        .download-links {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 10px 0;
         }
 
         .loading {
@@ -486,36 +486,14 @@
         .frontend-toggle {
             display: none !important;
         }
-
-        /* Add styles for recommended games section */
-        .recommended-games {
-            padding: 2rem;
-            margin-top: 20px;
-        }
-
-        .recommended-title {
-            font-size: 2.5em;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .recommended-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            padding: 1rem 0;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <h1 class="logo"><i class="fas fa-gamepad"></i>LdGames</h1>
-        <div class="subtitle">Sua biblioteca de jogos definitiva</div>
-    </header>
+    <header></header>
 
     <div class="search-container" id="searchContainer">
-        <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar jogos...">
+        <button class="search-close-btn" onclick="toggleSearch()">&#xd7;</button>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search games...">
         <div class="search-results" id="searchResults"></div>
     </div>
 
@@ -671,18 +649,26 @@ document.getElementById('searchInput').addEventListener('blur', () => {
 async function searchGames(term) {
   const searchResults = document.getElementById('searchResults');
   searchResults.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    Pesquisando...
-                </div>
-            `;
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      Searching games...
+    </div>
+  `;
   try {
     const response = await fetch(`${apiUrl}?name=${encodeURIComponent(term)}`);
-    if (!response.ok) throw new Error("Erro na API");
+    if (!response.ok) throw new Error("API Error");
     const games = await response.json();
     displaySearchResults(games);
+    if (gamepadConnected) {
+      selectedGame = 0;
+      highlightSelected();
+    }
   } catch (error) {
-    searchResults.innerHTML = `<div class="error">Erro na pesquisa: ${error.message}</div>`;
+    searchResults.innerHTML = `
+      <div class="error">
+        Search error: ${error.message}
+      </div>
+    `;
   }
 }
 async function fetchGames() {
@@ -716,16 +702,16 @@ async function showGameDetails(game) {
   const content = document.getElementById('gameDetailsContent');
   detailsContainer.style.backgroundImage = `url(${game.banner_url || game.image_url})`;
   content.innerHTML = `
-        <h1 class="game-details-title">${game.title}</h1>
-        <div class="game-description">${game.description || 'No description available'}</div>
-        <button class="download-button" onclick="handleDownload('${game.title.replace(/'/g, "\\'")}')">
-            Download Game
-        </button>
-        <button class="save-button ${getSavedGames().some(g => g.title === game.title) ? 'saved' : ''}" 
-                onclick="handleSave('${game.title.replace(/'/g, "\\'")}', this)">
-            ${getSavedGames().some(g => g.title === game.title) ? 'Salvo na Biblioteca' : 'Salvar na Biblioteca'}
-        </button>
-    `;
+    <h1 class="game-details-title">${game.title}</h1>
+    <div class="game-description">${game.description || 'No description available'}</div>
+    <button class="download-button" onclick="handleDownload('${game.title.replace(/'/g, "\\'")}')">
+      Download Game
+    </button>
+    <button class="save-button ${getSavedGames().some(g => g.title === game.title) ? 'saved' : ''}" 
+            onclick="handleSave('${game.title.replace(/'/g, "\\'")}', this)">
+      ${getSavedGames().some(g => g.title === game.title) ? 'Salvo na Biblioteca' : 'Salvar na Biblioteca'}
+    </button>
+  `;
   detailsContainer.style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
@@ -820,15 +806,15 @@ function displaySearchResults(games) {
     const gameCard = document.createElement('div');
     gameCard.className = 'game-card';
     gameCard.innerHTML = `
-                    <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
-                    <div class="game-info">
-                        <div class="game-title">${game.title}</div>
-                        <div class="game-date">
-                            <i class="far fa-calendar-alt"></i>
-                            ${game.release_date || 'Data não informada'}
-                        </div>
-                    </div>
-                `;
+            <img src="${game.image_url || 'https://via.placeholder.com/200x280?text=Sem+Imagem'}" alt="${game.title}">
+            <div class="game-info">
+                <div class="game-title">${game.title}</div>
+                <div class="game-date">
+                    <i class="far fa-calendar-alt"></i>
+                    ${game.release_date || 'Data não informada'}
+                </div>
+            </div>
+        `;
     gameCard.addEventListener('click', () => showGameDetails(game));
     resultsContainer.appendChild(gameCard);
   });
@@ -879,6 +865,10 @@ function initGamepad() {
   }, 16);
 }
 function handleGamepadInput(gamepad) {
+  if (gamepad.buttons[2].pressed) {
+    toggleSearch();
+    return;
+  }
   const games = isSearchActive ? document.querySelectorAll('.search-results .game-card') : document.querySelectorAll('#recommendedGames .game-card');
   const detailsOpen = document.querySelector('.game-details').style.display === 'block';
   const dialogOpen = document.querySelector('dialog[open]');
@@ -930,24 +920,45 @@ function handleGamepadInput(gamepad) {
   if (now - lastInputTime < 200) {
     return;
   }
-  if (gamepad.buttons[15].pressed || gamepad.axes[0] > 0.5) {
-    selectedGame = (selectedGame + 1) % games.length;
-    lastInputTime = now;
-    highlightSelected();
-  } else if (gamepad.buttons[14].pressed || gamepad.axes[0] < -0.5) {
-    selectedGame = (selectedGame - 1 + games.length) % games.length;
-    lastInputTime = now;
-    highlightSelected();
-  } else if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
-    const columns = 4;
-    selectedGame = (selectedGame - columns + games.length) % games.length;
-    lastInputTime = now;
-    highlightSelected();
-  } else if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
-    const columns = 4;
-    selectedGame = (selectedGame + columns) % games.length;
-    lastInputTime = now;
-    highlightSelected();
+  if (isSearchActive) {
+    const games = document.querySelectorAll('.search-results .game-card');
+    if (gamepad.buttons[15].pressed || gamepad.axes[0] > 0.5) {
+      selectedGame = (selectedGame + 1) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+      games[selectedGame].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center'
+      });
+    } else if (gamepad.buttons[14].pressed || gamepad.axes[0] < -0.5) {
+      selectedGame = (selectedGame - 1 + games.length) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+      games[selectedGame].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center'
+      });
+    }
+  } else {
+    if (gamepad.buttons[15].pressed || gamepad.axes[0] > 0.5) {
+      selectedGame = (selectedGame + 1) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+    } else if (gamepad.buttons[14].pressed || gamepad.axes[0] < -0.5) {
+      selectedGame = (selectedGame - 1 + games.length) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+    } else if (gamepad.buttons[12].pressed || gamepad.axes[1] < -0.5) {
+      const columns = 4;
+      selectedGame = (selectedGame - columns + games.length) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+    } else if (gamepad.buttons[13].pressed || gamepad.axes[1] > 0.5) {
+      const columns = 4;
+      selectedGame = (selectedGame + columns) % games.length;
+      lastInputTime = now;
+      highlightSelected();
+    }
   }
   if (gamepad.buttons[0].pressed) {
     const selectedCard = games[selectedGame];
@@ -972,12 +983,12 @@ function highlightSelected() {
   if (selectedGame < 0) {
     selectedGame = 0;
   }
-  if (games && games[selectedGame]) {
+  if (games[selectedGame]) {
     games[selectedGame].classList.add('selected');
     games[selectedGame].scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
-      inline: 'nearest'
+      block: 'center',
+      inline: 'center'
     });
   }
 }
@@ -1071,18 +1082,34 @@ function displayRecommendedGames() {
     const gameCard = document.createElement("div");
     gameCard.className = "game-card";
     gameCard.innerHTML = `
-      <img src="${game.image_url || 'https://via.placeholder.com/264x352?text=Sem+Imagem'}" alt="${game.title}">
-      <div class="game-info">
-        <div class="game-title">${game.title}</div>
-        <div class="game-date">
-          <i class="far fa-calendar-alt"></i>
-          ${game.release_date || 'Data não informada'}
-        </div>
-      </div>
-    `;
+            <img src="${game.image_url || 'https://via.placeholder.com/200x280?text=No+Image'}" 
+                 alt="${game.title}"
+                 loading="lazy">
+            <div class="game-info">
+                <div class="game-title">${game.title}</div>
+                <div class="game-date">
+                    <i class="far fa-calendar-alt"></i>
+                    ${game.release_date || '-'}
+                </div>
+            </div>
+        `;
     gameCard.addEventListener('click', () => showGameDetails(game));
     container.appendChild(gameCard);
   });
+}
+function toggleSearch() {
+  const searchContainer = document.querySelector('.search-container');
+  const searchInput = document.getElementById('searchInput');
+  if (!searchContainer.classList.contains('active')) {
+    searchContainer.classList.add('active');
+    searchInput.focus();
+    isSearchActive = true;
+  } else {
+    searchContainer.classList.remove('active');
+    searchInput.value = '';
+    isSearchActive = false;
+    selectedGame = 0;
+  }
 }
 document.addEventListener('DOMContentLoaded', () => {
   if (screen.orientation && screen.orientation.lock) {
@@ -1094,4 +1121,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initGamepad();
 });</script>
 </body>
-</html></head></html>
+</html>
