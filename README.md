@@ -1,27 +1,28 @@
-# LdGames
+# LdGames  
 
-LdGames é uma aplicação simples para gerenciar backups de jogos usando planilhas CSV. O aplicativo permite aos usuários organizar e visualizar informações sobre jogos, incluindo detalhes de jogabilidade.
+LdGames é um projeto de código aberto inspirado no **Hydra Launcher**, desenvolvido no **Sketchware**. O objetivo do projeto é oferecer um **gerenciador de jogos** eficiente, compatível com as mesmas fontes utilizadas no Hydra Launcher.  
 
-## Funcionalidades
+## 🚀 Funcionalidades  
 
-- **Importação e Exportação CSV:** LdGames suporta apenas planilhas no formato CSV para importar e exportar dados. Um exemplo de planilha pode ser encontrado [aqui](https://docs.google.com/spreadsheets/d/1cOXhLPW7XDzP8fwm5b6ngWLh36vd0rJ6RL_dlXEezQY/export?format=csv).
-  
-- **Visualização de Jogabilidade:** Além de manter registros de backup, os usuários podem visualizar detalhes de jogabilidade e vídeos diretamente no aplicativo, simulando uma experiência de loja de jogos.
+- Suporte às mesmas fontes do **Hydra Launcher**  
+- Interface desenvolvida no **Sketchware**  
+- Sistema de download baseado em **OkHttp** *(sem suporte a torrent)*  
 
-## Como Usar
+## 🎯 Metas  
 
-1. **Importação de Dados:**
-   - Baixe uma planilha CSV de exemplo [aqui](https://docs.google.com/spreadsheets/d/1cOXhLPW7XDzP8fwm5b6ngWLh36vd0rJ6RL_dlXEezQY/export?format=csv).
-   - No LdGames, use a opção de importação para carregar seus dados de jogos.
+- Melhorar o sistema de **download**, tornando-o mais rápido e estável  
+- Implementar a abertura de **jogos no Winlator** diretamente pelo LdGames  
 
-2. **Visualização de Jogabilidade:**
-   - Navegue pelos jogos listados para ver vídeos de jogabilidade e mais detalhes.
+## 📥 Download do Código-Fonte  
 
+Você pode baixar o código-fonte do LdGames clicando no link abaixo:  
 
-## Exemplo de Planilha
+🔗 [LdGames - Código Fonte](https://github.com/DEYVIDYT/LdGames/archive/refs/heads/main.zip)  
 
-Para uma referência sobre como organizar seus dados, veja [este exemplo de planilha](https://docs.google.com/spreadsheets/d/14VITodZBJoENVzCWp72OSCfX9kndLgcyl5iS3xRENps/edit?usp=drivesdk) demonstrando o layout básico de uma loja de jogos.
+## 📜 Licença  
 
-## Contribuições
+Este projeto é **open-source**.
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests para melhorias no código ou na documentação.
+---  
+
+Contribuições são bem-vindas! Se você deseja ajudar a melhorar o LdGames, sinta-se à vontade. ♥️
