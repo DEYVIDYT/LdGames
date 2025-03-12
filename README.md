@@ -19,7 +19,7 @@ Você pode baixar o código-fonte do LdGames clicando no link abaixo:
 
 🔗 [LdGames - Código Fonte](https://github.com/DEYVIDYT/LdGames/archive/refs/heads/main.zip)  
 
-[![Discord](https://discord.com/api/guilds/mnKJ9GxY/widget.png)](https://discord.gg/mnKJ9GxY)
+[![Discord]([https://discord.com/api/guilds/mnKJ9GxY/widget.png](https://logodownload.org/wp-content/uploads/2017/11/discord-logo-4-1.png))](https://discord.gg/mnKJ9GxY)
 
 
 ## 📜 Licença  
