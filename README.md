@@ -10,7 +10,6 @@ LdGames é um projeto de código aberto inspirado no **Hydra Launcher**, desenvo
 
 ## 🎯 Metas  
 
-- Melhorar o sistema de **download**, tornando-o mais rápido e estável  
 - Implementar a abertura de **jogos no Winlator** diretamente pelo LdGames  
 
 ## 📥 Download do Código-Fonte  
@@ -19,7 +18,8 @@ Você pode baixar o código-fonte do LdGames clicando no link abaixo:
 
 🔗 [LdGames - Código Fonte](https://github.com/DEYVIDYT/LdGames/archive/refs/heads/main.zip)  
 
-[![Discord]([https://discord.com/api/guilds/mnKJ9GxY/widget.png](https://logodownload.org/wp-content/uploads/2017/11/discord-logo-4-1.png))](https://discord.gg/mnKJ9GxY)
+[![Discord](https://logodownload.org/wp-content/uploads/2017/11/discord-logo-4-1.png)](https://discord.gg/mnKJ9GxY) Discord
+
 
 
 ## 📜 Licença  
