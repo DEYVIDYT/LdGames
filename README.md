@@ -6,7 +6,6 @@ LdGames é um projeto de código aberto inspirado no **Hydra Launcher**, desenvo
 
 - Suporte às mesmas fontes do **Hydra Launcher**  
 - Interface desenvolvida no **Sketchware**  
-- Sistema de download baseado em **OkHttp** *(sem suporte a torrent)*  
 
 ## 🎯 Metas  
 
