@@ -16,11 +16,19 @@ LdGames é um projeto de código aberto inspirado no **Hydra Launcher**, desenvo
 
 Você pode baixar o código-fonte do LdGames clicando no link abaixo:  
 
-🔗 [LdGames - Código Fonte](https://github.com/DEYVIDYT/LdGames/archive/refs/heads/main.zip)  
+ **Código Fonte SWB:**  
+  Copie o link abaixo para acessar o código fonte SWB do LdGames:  
+  `https://github.com/DEYVIDYT/LdGames/releases/download/LDGAMES1.5BETA/LdGamesByDeivid.v1.5.com.ld.games.1.2025-03-12T142239.swb`
+  
+## 📡 Links para o Projeto:
+
+- **Lista de Cloud Hydra Launcher:**  
+  Copie o link abaixo para acessar a lista de cloud do Hydra Launcher:  
+  `https://raw.githubusercontent.com/DEYVIDYT/The-Piraty-Games/refs/heads/main/LdGamesCloud.json`
+
+
 
 [![Discord](https://logodownload.org/wp-content/uploads/2017/11/discord-logo-4-1.png)](https://discord.gg/mnKJ9GxY) Discord
-
-
 
 ## 📜 Licença  
 
